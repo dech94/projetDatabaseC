@@ -1,10 +1,10 @@
-struct index_bucket {
+struct index:_bucket {
 const struct directory_data *data;
 struct index_bucket *next;
 };
 
 struct index_bucket *index_bucket_add(struct index_bucket *self, const struct directory_data *data){
-
+return NULL;
 }
 
 void index_bucket_destroy(struct index_bucket *self){
@@ -14,15 +14,15 @@ void index_bucket_destroy(struct index_bucket *self){
 typedef size_t (*index_hash_func_t)(const struct directory_data *data);
 
 size_t fnv_hash(const char *key){
-
+return 0;
 }
 
 size_t index_first_name_hash(const struct directory_data *data){
-
+return 0;
 }
 
 size_t index_telephone_hash(const struct directory_data *data){
-
+return 0;
 }
 
 struct index {

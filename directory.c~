@@ -21,7 +21,7 @@ void directory_data_random(struct directory_data *data) {
 	int lenght_first_name = (Rand()%(NAME_LENGHT_MAX-NAME_LENGHT_MIN))+NAME_LENGHT_MIN+1;
 }
 	int index_char = 0;
-	for(int i=0; i<(lenght_last_name+1); ++i){
+	for(int i=0; i<=lenght_last_name; ++i){
 		if(i%2!=0) {
 			index_char=Rand()%5;
 			switch(index_char) {
@@ -92,7 +92,7 @@ void directory_data_random(struct directory_data *data) {
 			}
 		}
 	}
-	for(int i=0; i<(lenght_first_name+1); ++i){
+	for(int i=0; i<=lenght_first_name; ++i){
 		if(i%2!=0) {
 			index_char=Rand()%5;
 			switch(index_char) {
