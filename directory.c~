@@ -1,29 +1,16 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-#define NAME_LENGTH_MIN 3
-#define NAME_LENGTH_MAX 10
-#define TELEPHONE_LENGTH 8
-
-struct directory_data {
-        char last_name[NAME_LENGTH_MAX + 1];
-        char first_name[NAME_LENGTH_MAX + 1];
-        char telephone[TELEPHONE_LENGTH + 1];
-};
-
+#include"directory.h"
 void directory_data_print(const struct directory_data *data) {
 	printf("- %s %s: %s\n", data->last_name, data->first_name, data->telephone);
 }
 
 void directory_data_random(struct directory_data *data) {
-	srand(time(null));
-	int lenght_last_name = (Rand()%(NAME_LENGHT_MAX-NAME_LENGHT_MIN))+NAME_LENGHT_MIN+1;
-	int lenght_first_name = (Rand()%(NAME_LENGHT_MAX-NAME_LENGHT_MIN))+NAME_LENGHT_MIN+1;
-}
+	srand(time(NULL));
+	int lenght_last_name = (rand()%(NAME_LENGTH_MAX - NAME_LENGTH_MIN))+NAME_LENGTH_MIN+1;
+	int lenght_first_name = (rand()%(NAME_LENGTH_MAX - NAME_LENGTH_MIN))+NAME_LENGTH_MIN+1;
 	int index_char = 0;
-	for(int i=0; i<=lenght_last_name; ++i){
+	for(int i=0; i<lenght_last_name; ++i){
 		if(i%2!=0) {
-			index_char=Rand()%5;
+			index_char=rand()%5;
 			switch(index_char) {
 				case(0) :
 					data->last_name[i]='A';
@@ -42,7 +29,7 @@ void directory_data_random(struct directory_data *data) {
                                         break;
 			}
 		}else{
-			index_char=Rand()%15
+			index_char=rand()%15;
 			switch(index_char) {
                                 case(0) :
                                         data->last_name[i]='B';
@@ -92,9 +79,9 @@ void directory_data_random(struct directory_data *data) {
 			}
 		}
 	}
-	for(int i=0; i<=lenght_first_name; ++i){
+	for(int i=0; i<(lenght_first_name+1); ++i){
 		if(i%2!=0) {
-			index_char=Rand()%5;
+			index_char=rand()%5;
 			switch(index_char) {
 				case(0) :
 					data->first_name[i]='A';
@@ -113,7 +100,7 @@ void directory_data_random(struct directory_data *data) {
                                         break;
 			}
 		}else{
-			index_char=Rand()%15
+			index_char=rand()%15;
 			switch(index_char) {
                                 case(0) :
                                         data->first_name[i]='B';
@@ -163,15 +150,10 @@ void directory_data_random(struct directory_data *data) {
 			}
 		}
 	}
-	for(i=0;i<=TELEPHONE_LENGHT;++i){
-		data->telephone[i]=Rand()%10;
+	for(int i=0;i<=TELEPHONE_LENGTH;++i){
+		data->telephone[i]=rand()%10;
 	}
 }
-struct directory {
-        struct directory_data **data;
-        size_t size;
-        size_t capacity;
-};
 
 void directory_create(struct directory *self) {
 	self->data = NULL;
@@ -180,25 +162,24 @@ void directory_create(struct directory *self) {
 }
 
 void directory_destroy(struct directory *self) {
-	free(self->data);
-	free(self->size);
-	free(self->capacity);
+	free(self);
 }
 
 void directory_add(struct directory *self, struct directory_data *data) {
 	if(self->size>=self->capacity){
 		self->capacity=self->capacity+1;
 	}
-	self->data[size]=data;
+	self->data[self->size]=data;
 }
 
 void directory_random(struct directory *self, size_t n) {
-	directory random = malloc(sizeof(directory));
-	directory_create(random);	
+	directory_create(self);
 	for(int i=0;i<n;++i){
 		directory_data newData = malloc(sizeof(directory_data));
 		directory_data_random(newData);
-		directory_add(random,newData);
+		directory_add(self,newData);
 	}
 }
-
+int main() {
+	return 0;
+}
