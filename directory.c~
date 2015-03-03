@@ -1,4 +1,6 @@
 #include"directory.h"
+struct directory_data;
+struct directory;
 void directory_data_print(const struct directory_data *data) {
 	printf("- %s %s: %s\n", data->last_name, data->first_name, data->telephone);
 }
@@ -165,21 +167,34 @@ void directory_destroy(struct directory *self) {
 	free(self);
 }
 
-void directory_add(struct directory *self, struct directory_data *data) {
-	if(self->size>=self->capacity){
-		self->capacity=self->capacity+1;
+void grow(struct directory *self){ 
+	assert(self->size==self->capacity);
+	size_t capacity = self-> capacity;
+	if(capacity==0){
+		capacity=10;
+		self->data=calloc(capacity,sizeof(struct directory_data));
+	}else{
+		capacity*=2;
+		struct directory_data *data=calloc(capacity,sizeof(struct directory_data));
+		memcpy(data,self->data,self->size * sizeof(struct directory_data));
+		free(self->data);
+		self->data=data;
 	}
-	self->data[self->size]=data;
+	self->capacity=capacity;
+}
+
+void directory_add(struct directory *self, struct directory_data *data) {
+	grow(self);	
+	assert(self->size!=0);
+	self->size++;
+	self->data[(self->size)-1]=data;
 }
 
 void directory_random(struct directory *self, size_t n) {
 	directory_create(self);
 	for(int i=0;i<n;++i){
-		directory_data newData = malloc(sizeof(directory_data));
+		struct directory_data *newData = malloc(sizeof(struct directory_data));
 		directory_data_random(newData);
 		directory_add(self,newData);
 	}
-}
-int main() {
-	return 0;
 }

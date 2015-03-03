@@ -3,6 +3,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<assert.h>
+#include<string.h>
 #define NAME_LENGTH_MIN 3
 #define NAME_LENGTH_MAX 10
 #define TELEPHONE_LENGTH 8
