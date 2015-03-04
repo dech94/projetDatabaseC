@@ -10,6 +10,7 @@ void print_menu(){
 }
 
 int main() {
+	srand(time(NULL));
 	struct directory *dir = malloc(sizeof(struct directory));
 	directory_create(dir);
 	directory_random(dir,SIZE_OF_TAB);
@@ -17,5 +18,6 @@ int main() {
 		directory_data_print(dir->data[i]);
 	}
 	print_menu();
+	directory_destroy(dir);
 	return 0;
 }

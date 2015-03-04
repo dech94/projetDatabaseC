@@ -1,5 +1,4 @@
-
-all: search.o directory.o application
+all: search.o directory.o application.o
 	gcc -g -std=c99 $^ -o application
 application.o : application.c application.h
 	gcc -c -Wall -g  application.h application.c -std=c99
