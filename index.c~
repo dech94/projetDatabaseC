@@ -2,25 +2,7 @@
 struct index_bucket;
 struct index;
 struct index_bucket *index_bucket_add(struct index_bucket *self, const struct directory_data *data){
-	 /* On crée un nouvel élément */
-    index_bucket* newBucket = malloc(sizeof(index_bucket));
-    /* On assigne la valeur au nouvel élément */
-    nouvelElement->val = valeur;
-    /* On ajoute en fin, donc aucun élément ne va suivre */
-    nouvelElement->nxt = NULL;
-    if(liste == NULL){
-        /* Si la liste est videé il suffit de renvoyer l'élément créé */
-        return nouvelElement;
-    }else{
-        /* Sinon, on parcourt la liste à l'aide d'un pointeur temporaire et on
-        indique que le dernier élément de la liste est relié au nouvel élément */
-        element* temp=liste;
-        while(temp->nxt != NULL){
-            temp = temp->nxt;
-        }
-        temp->nxt = nouvelElement;
-        return liste;
-    }
+return NULL;
 }
 
 void index_bucket_destroy(struct index_bucket *self){

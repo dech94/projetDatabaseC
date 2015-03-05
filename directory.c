@@ -176,11 +176,11 @@ void grow(struct directory *self){
 	size_t capacity = self-> capacity;
 	if(capacity==0){
 		capacity=10;
-		//self->data=calloc(capacity,sizeof(struct directory_data));
+		//self->data=calloc(capacity,sizeof(struct directory_data *));
 	}else{
 		capacity*=2;
-		//struct directory_data *data=calloc(capacity,sizeof(struct directory_data));
-		//memcpy(data,self->data,self->size * sizeof(struct directory_data));
+		//struct directory_data *data=calloc(capacity,sizeof(struct directory_data *));
+		//memcpy(self->*data,self->capacity,self->size * sizeof(struct directory_data));
 		//free(self->data);
 		//self->data=data;
 	}

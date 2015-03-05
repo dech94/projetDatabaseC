@@ -1,21 +1,17 @@
 #ifndef INDEX_DATA_H
 #define INDEX_DATA_H
 #include"search.h"
-
 struct index_bucket {
 const struct directory_data *data;
 struct index_bucket *next;
 };
-
 struct index {
 	struct index_bucket **buckets;
 	size_t count;
 	size_t size;
 	index_hash_func_t func;
 };
-
 typedef size_t (*index_hash_func_t)(const struct directory_data *data);
-
 struct index_bucket *index_bucket_add(struct index_bucket *self, const struct directory_data *data);
 void index_bucket_destroy(struct index_bucket *self);
 size_t fnv_hash(const char *key);
