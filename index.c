@@ -111,7 +111,8 @@ void index_add(struct index *self, const struct directory_data *data){
 	size_t i = self->func(data) % self->size;
 	if( self->buckets[i] == NULL){
 		self->buckets[i] = malloc(sizeof(struct index_bucket));
-		index_bucket_create(self->buckets[i]);
+		self->buckets[i] -> data = NULL;
+		self->buckets[i] -> next = NULL;
 	}
 	index_bucket_add( self->buckets[i], data );
 	self->count++;
