@@ -1,4 +1,7 @@
+#include <assert.h>
+
 #include"application.h"
+
 struct directory_data;
 void clean_newline(char *buf, size_t size){
 	if (buf[size-1]=='\n') {
@@ -24,54 +27,53 @@ int main() {
 	directory_random(dir,SIZE_OF_TAB);
 	gettimeofday(&end, NULL);
 	int time_exe = calc_time_interval(begin, end);
-	printf("initialisation du repertoire en %d\ microsecondes", time_exe);
-	
-
-/*	gettimeofday(&begin, NULL);
+	printf("initialisation du repertoire en %d microsecondes\n", time_exe);
+	gettimeofday(&begin, NULL);
 	directory_sort (dir);
 	gettimeofday(&end, NULL);
 	time_exe = calc_time_interval(begin, end);
-	printf("Tri du repertoire en %d\ microsecondes", time_exe);*/
+	printf("Tri du repertoire en %d microsecondes", time_exe);
 
 /*	for(int i=0; i<SIZE_OF_TAB; ++i){*/
 /*		directory_data_print(dir->data[i]);*/
 /*	}*/
-
 	char buf[BUFSIZE];
 	for (;;) {
 		print_menu();
 		printf("> ");
-		fgets(buf, BUFSIZE, stdin);
+		char *ret = fgets(buf, BUFSIZE, stdin);
+		assert(ret && ret == buf);
 		clean_newline(buf, BUFSIZE);
 		char *search=calloc(NAME_LENGTH_MAX,sizeof(char));
-		switch (buf) {
-			case 'q':
+		switch (buf[0]) {
+			case ('q'):
 				exit(0);
 				free(search);
 				break;
-			case '1':
+			case ('1'):
 				fgets(search, sizeof(search), stdin);
 				clean_newline(search, BUFSIZE);
 				directory_search(dir, search);
 				free(search);
 				break;
-			case '2':
+			case ('2'):
 				fgets(search, sizeof(search), stdin);
 				clean_newline(search, BUFSIZE);
 				directory_search_opt(dir, search);
 				free(search);
 				break;
-			case '3':
+			case ('3'):
 				fgets(search, sizeof(search), stdin);
 				clean_newline(search, BUFSIZE);
 				free(search);
 				break;
-			case '4':
+			case ('4'):
 				fgets(search, sizeof(search), stdin);
 				clean_newline(search, BUFSIZE);
 				free(search);
 				break;
-			default : printf("La valeur saisie est invalide.")
+			default : 
+				printf("La valeur saisie est invalide (%c,%i).\n", buf[0], (int) buf[0]);
 		}
 	}
 	directory_destroy(dir);
