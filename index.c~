@@ -142,8 +142,6 @@ void index_fill_with_directory(struct index *self, const struct directory *dir){
 }
 
 void index_search_by_first_name(const struct index *self, const char *first_name){
-	assert(self);
-	assert(self->size > 0);
 	size_t i = fnv_hash(first_name)%self->size;
 	struct index_bucket* it = self->buckets[i];
 	int found = 0;
@@ -160,6 +158,7 @@ void index_search_by_first_name(const struct index *self, const char *first_name
 }
 
 void index_search_by_telephone(const struct index *self, const char *telephone){
+printf("%s not found\n", telephone);
 	size_t i = fnv_hash(telephone)%self->size;
 	struct index_bucket* it = self->buckets[i];
 	int found = 0;

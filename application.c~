@@ -2,10 +2,12 @@
 
 struct directory_data;
 void clean_newline(char *buf, size_t size){
-	char *p = strchr(buf, '\n');
+  
+	char *p = strchr(buf,'\n');
 	if (p) {
 		*p='\0';
-	}
+		printf("OK\n");
+	}else printf("KO\n");
 }
 
 void print_menu(){
@@ -49,38 +51,41 @@ int main() {
 		char *ret = fgets(buf, BUFSIZE, stdin);
 		assert(ret && ret == buf);
 		clean_newline(buf, BUFSIZE);
-		char *search=calloc(NAME_LENGTH_MAX,sizeof(char));
-		char *searchbis=calloc(TELEPHONE_LENGTH, sizeof(char));
-		//char *search="BOBY";
-		switch (buf[0]) {
-			clean_newline(search, sizeof(search));
+		char *search=malloc(BUFSIZE);
+		char *searchbis=malloc(BUFSIZE);
+		//char *search="BOBY
+			//clean_newline(search, NAME_LENGTH_MAX);
+		switch(buf[0]){
 			case ('q'):
 				exit(0);
 				free(search);
 				break;
 			case ('1'):
 				printf("entrer un nom\n");
-				fgets(search, sizeof(search), stdin);
-				clean_newline(search, sizeof(search));
+				fgets(search, NAME_LENGTH_MAX+2, stdin);
+				clean_newline(search, NAME_LENGTH_MAX);
 				directory_search(dir, search);
 				free(search);
 				break;
 			case ('2'):
-				fgets(search, sizeof(search), stdin);
-				clean_newline(search, sizeof(search));
+				fgets(search, NAME_LENGTH_MAX+2, stdin);
+				clean_newline(search, NAME_LENGTH_MAX);
 				directory_search_opt(dir, search);
 				free(search);
 				break;
 			case ('3'):
-				fgets(search, sizeof(search), stdin);
-				clean_newline(search, sizeof(search));
+				fgets(search, NAME_LENGTH_MAX+2, stdin);
+				clean_newline(search, NAME_LENGTH_MAX);
 				index_search_by_first_name(index_first_name, search);
 				free(search);
 				break;
 			case ('4'):
-				fgets(searchbis, sizeof(searchbis), stdin);
-				clean_newline(searchbis, sizeof(searchbis));
+				fgets(searchbis, TELEPHONE_LENGTH+2, stdin);
+printf("1 : %s \n", searchbis);
+				clean_newline(searchbis, TELEPHONE_LENGTH);
+printf("2 : %s \n", searchbis);
 				index_search_by_telephone(index_telephone, searchbis);
+printf("3 : %s \n", searchbis);
 				free(searchbis);
 				break;
 			default : 
