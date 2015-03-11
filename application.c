@@ -2,8 +2,9 @@
 
 struct directory_data;
 void clean_newline(char *buf, size_t size){
-	if (buf[size-1]=='\n') {
-		buf[size-1]='\0';
+	char *p = strchr(buf, '\n');
+	if (p) {
+		*p='\0';
 	}
 }
 
@@ -31,10 +32,16 @@ int main() {
 	gettimeofday(&end, NULL);
 	time_exe = calc_time_interval(begin, end);
 	printf("Tri du repertoire en %d microsecondes\n", time_exe);
+	struct index* index_first_name = malloc(sizeof(struct index));
+	index_create(index_first_name,index_first_name_hash);
+	index_fill_with_directory(index_first_name, dir);
+	struct index* index_telephone = malloc(sizeof(struct index));
+	index_create(index_telephone,index_telephone_hash);
+	index_fill_with_directory(index_telephone, dir);
 
-/*	for(int i=0; i<SIZE_OF_TAB; ++i){*/
-/*		directory_data_print(dir->data[i]);*/
-/*	}*/
+	for(int i=0; i<SIZE_OF_TAB; ++i){
+		directory_data_print(dir->data[i]);
+	}
 	char buf[BUFSIZE];
 	for (;;) {
 		print_menu();
@@ -43,6 +50,7 @@ int main() {
 		assert(ret && ret == buf);
 		clean_newline(buf, BUFSIZE);
 		char *search=calloc(NAME_LENGTH_MAX,sizeof(char));
+		char *searchbis=calloc(TELEPHONE_LENGTH+1, sizeof(char));
 		//char *search="BOBY";
 		switch (buf[0]) {
 			clean_newline(search, sizeof(search));
@@ -53,25 +61,27 @@ int main() {
 			case ('1'):
 				printf("entrer un nom\n");
 				fgets(search, sizeof(search), stdin);
-				clean_newline(search, BUFSIZE);
+				clean_newline(search, sizeof(search));
 				directory_search(dir, search);
 				free(search);
 				break;
 			case ('2'):
 				fgets(search, sizeof(search), stdin);
-				clean_newline(search, BUFSIZE);
+				clean_newline(search, sizeof(search));
 				directory_search_opt(dir, search);
 				free(search);
 				break;
 			case ('3'):
 				fgets(search, sizeof(search), stdin);
-				clean_newline(search, BUFSIZE);
+				clean_newline(search, sizeof(search));
+				index_search_by_first_name(index_first_name, search);
 				free(search);
 				break;
 			case ('4'):
-				fgets(search, sizeof(search), stdin);
-				clean_newline(search, BUFSIZE);
-				free(search);
+				fgets(searchbis, sizeof(searchbis), stdin);
+				clean_newline(searchbis, sizeof(searchbis));
+				index_search_by_telephone(index_telephone, searchbis);
+				free(searchbis);
 				break;
 			default : 
 				printf("La valeur saisie est invalide (%c,%i,%c).\n", buf[0], (int) buf[0], ret[0]);

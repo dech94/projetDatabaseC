@@ -2,10 +2,15 @@
 struct directory_data;
 struct directory;
 void directory_search(const struct directory *self, const char *last_name) {
+	int res = 0;
 	for(int i=0; i<(self->size); ++i){
-		if(strcmp(self->data[i]->last_name, last_name)){
+		if(strcmp(self->data[i]->last_name, last_name)==0){
 			directory_data_print(self->data[i]);
+			res++;
 		}
+	}
+	if(res == 0){
+		printf("not found\n");
 	}
 }
 
@@ -72,19 +77,17 @@ void directory_search_opt(const struct directory *self, const char *last_name) {
 	size_t start = 0;
 	size_t end = self->size-1;
 	size_t mid;
-	char *pivot;
 	while (stop != 1) {
 		if (start > end) {
 			stop = 1;
 		} else {
 			mid = (start+end)/2;
-			pivot = self->data[mid]->last_name;
-			if (strcmp(pivot, last_name) == 0) {
+			if (strcmp(self->data[mid]->last_name, last_name) == 0) {
 				directory_data_print(self->data[mid]);
 				stop = 1;
 				res = 1;
 			} else {
-				if (strcmp(pivot, last_name) < 0) {
+				if (strcmp(self->data[mid]->last_name, last_name) > 0) {
 					end = mid-1;
 				} else {
 					start = mid+1;

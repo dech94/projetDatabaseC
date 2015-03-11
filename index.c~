@@ -147,15 +147,15 @@ void index_search_by_first_name(const struct index *self, const char *first_name
 	size_t i = fnv_hash(first_name)%self->size;
 	struct index_bucket* it = self->buckets[i];
 	int found = 0;
-	while( it != NULL )
-		if( strcmp(it->data->first_name, first_name) == 0 ){
+	while(it != NULL) {
+		if(strcmp(it->data->first_name, first_name) == 0){
 			directory_data_print(it->data);
 			found++;
 		}
 		it = it->next;
 	}
 	if(found==0){
-	printf("Can't find %s in the database !\n", first_name);
+	printf("%s not found\n", first_name);
 	}
 }
 
@@ -163,15 +163,15 @@ void index_search_by_telephone(const struct index *self, const char *telephone){
 	size_t i = fnv_hash(telephone)%self->size;
 	struct index_bucket* it = self->buckets[i];
 	int found = 0;
-	while( it != NULL ){
-		if( strcmp(it->data->telephone, telephone) == 0 ){
+	while(it != NULL){
+		if(strcmp(it->data->telephone, telephone) == 0){
 			directory_data_print(it->data);
 			found++;
 		}
 		it = it->next;
 	}
 	if(found==0){
-		printf("Can't find %s in the database !\n", telephone);
+		printf("%s not found\n", telephone);
 	}
 }
 

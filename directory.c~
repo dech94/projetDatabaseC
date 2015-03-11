@@ -61,7 +61,6 @@ void grow(struct directory *self){
 		memcpy(temp,self->data,self->capacity * sizeof(struct directory_data *));
 		free(self->data);
 		self->data=temp;
-		free(temp);
 	}
 	self->capacity=capacity;
 	//self->data=realloc(self->data, capacity * sizeof(struct directory_data *));

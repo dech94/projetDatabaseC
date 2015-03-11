@@ -77,7 +77,7 @@ void directory_add(struct directory *self, struct directory_data *data) {
 void directory_random(struct directory *self, size_t n) {
 	directory_create(self);
 	for(int i=0;i<n;++i){
-		struct directory_data *newData = malloc(sizeof(struct directory_data));
+		struct directory_data *newData = calloc(1,sizeof(struct directory_data));
 		directory_data_random(newData);
 		directory_add(self,newData);
 	}
