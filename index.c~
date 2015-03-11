@@ -34,7 +34,7 @@ struct index_bucket *index_bucket_add(struct index_bucket *self, const struct di
 void index_bucket_destroy(struct index_bucket *self){
 	if( self != NULL )
 	{
-		index_bucket_destroy( self->next );
+		index_bucket_destroy(self->next);
 		free(self);
 	}
 }
@@ -42,24 +42,39 @@ void index_bucket_destroy(struct index_bucket *self){
 typedef size_t (*index_hash_func_t)(const struct directory_data *data);
 
 size_t fnv_hash(const char *key){
-
-return 0;
+	const size_t FNV_OFFSET_BASIS = 2166136261;
+	const size_t FNV_PRIME = 16777619;
+	const size_t BYTES = strlen(key);
+	size_t hash = FNV_OFFSET_BASIS;
+	for(size_t i=0; i < BYTES; i++) {
+		hash |= key[i];
+		hash = hash * FNV_PRIME;
+	}
+	return hash;
 }
 
 size_t index_first_name_hash(const struct directory_data *data){
-return 0;
+	return(fnv_hash(data->first_name));
 }
 
 size_t index_telephone_hash(const struct directory_data *data){
-return 0;
+	return(fnv_hash(data->telephone));
 }
 
 void index_create(struct index *self, index_hash_func_t func){
-
+	self->count = 0;
+	self->size = 0;
+	self->func = func;
+	self->buckets = NULL;
 }
 
 void index_destroy(struct index *self){
-
+	for(size_t i=0; i < self->size; i++){
+		if( self->buckets[i] ){
+			index_bucket_destroy(self->buckets[i]);
+		}
+	}
+	free(self->buckets);
 }
 
 void index_bucket_rehash(struct index_bucket* self,struct index* target ){
@@ -111,7 +126,8 @@ void index_add(struct index *self, const struct directory_data *data){
 	size_t i = self->func(data) % self->size;
 	if( self->buckets[i] == NULL){
 		self->buckets[i] = malloc(sizeof(struct index_bucket));
-		index_bucket_create(self->buckets[i]);
+		self->buckets[i] -> data = NULL;
+		self->buckets[i] -> next = NULL;
 	}
 	index_bucket_add( self->buckets[i], data );
 	self->count++;
@@ -126,10 +142,37 @@ void index_fill_with_directory(struct index *self, const struct directory *dir){
 }
 
 void index_search_by_first_name(const struct index *self, const char *first_name){
-
+	assert(self);
+	assert(self->size > 0);
+	size_t i = fnv_hash(first_name)%self->size;
+	struct index_bucket* it = self->buckets[i];
+	int found = 0;
+	while( it != NULL )
+		if( strcmp(it->data->first_name, first_name) == 0 ){
+			directory_data_print(it->data);
+			found++;
+		}
+		it = it->next;
+	}
+	if(found==0){
+	printf("Can't find %s in the database !\n", first_name);
+	}
 }
 
 void index_search_by_telephone(const struct index *self, const char *telephone){
-
+	size_t i = fnv_hash(telephone)%self->size;
+	struct index_bucket* it = self->buckets[i];
+	int found = 0;
+	while( it != NULL ){
+		if( strcmp(it->data->telephone, telephone) == 0 ){
+			directory_data_print(it->data);
+			found++;
+		}
+		it = it->next;
+	}
+	if(found==0){
+		printf("Can't find %s in the database !\n", telephone);
+	}
 }
+
 

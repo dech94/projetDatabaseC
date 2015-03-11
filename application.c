@@ -1,5 +1,3 @@
-#include <assert.h>
-
 #include"application.h"
 
 struct directory_data;
@@ -32,7 +30,7 @@ int main() {
 	directory_sort (dir);
 	gettimeofday(&end, NULL);
 	time_exe = calc_time_interval(begin, end);
-	printf("Tri du repertoire en %d microsecondes", time_exe);
+	printf("Tri du repertoire en %d microsecondes\n", time_exe);
 
 /*	for(int i=0; i<SIZE_OF_TAB; ++i){*/
 /*		directory_data_print(dir->data[i]);*/
@@ -45,12 +43,15 @@ int main() {
 		assert(ret && ret == buf);
 		clean_newline(buf, BUFSIZE);
 		char *search=calloc(NAME_LENGTH_MAX,sizeof(char));
+		//char *search="BOBY";
 		switch (buf[0]) {
+			clean_newline(search, sizeof(search));
 			case ('q'):
 				exit(0);
 				free(search);
 				break;
 			case ('1'):
+				printf("entrer un nom\n");
 				fgets(search, sizeof(search), stdin);
 				clean_newline(search, BUFSIZE);
 				directory_search(dir, search);
@@ -73,7 +74,9 @@ int main() {
 				free(search);
 				break;
 			default : 
-				printf("La valeur saisie est invalide (%c,%i).\n", buf[0], (int) buf[0]);
+				printf("La valeur saisie est invalide (%c,%i,%c).\n", buf[0], (int) buf[0], ret[0]);
+				printf("%i\n", ret==NULL);
+				break;
 		}
 	}
 	directory_destroy(dir);

@@ -8,3 +8,5 @@ search.o : search.c search.h
 	gcc -c -Wall -g search.h search.c -std=c99
 directory.o: directory.c directory.h
 	gcc -c -Wall -g directory.h directory.c -std=c99
+clean:
+	rm -f *.o
